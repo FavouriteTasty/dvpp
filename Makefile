@@ -129,6 +129,30 @@ main/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
+decode.o: decode.cpp.o
+.PHONY : decode.o
+
+# target to build an object file
+decode.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/decode.cpp.o
+.PHONY : decode.cpp.o
+
+decode.i: decode.cpp.i
+.PHONY : decode.i
+
+# target to preprocess a source file
+decode.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/decode.cpp.i
+.PHONY : decode.cpp.i
+
+decode.s: decode.cpp.s
+.PHONY : decode.s
+
+# target to generate assembly for a file
+decode.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/decode.cpp.s
+.PHONY : decode.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -153,6 +177,54 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+resource.o: resource.cpp.o
+.PHONY : resource.o
+
+# target to build an object file
+resource.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/resource.cpp.o
+.PHONY : resource.cpp.o
+
+resource.i: resource.cpp.i
+.PHONY : resource.i
+
+# target to preprocess a source file
+resource.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/resource.cpp.i
+.PHONY : resource.cpp.i
+
+resource.s: resource.cpp.s
+.PHONY : resource.s
+
+# target to generate assembly for a file
+resource.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/resource.cpp.s
+.PHONY : resource.cpp.s
+
+utils.o: utils.cpp.o
+.PHONY : utils.o
+
+# target to build an object file
+utils.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/utils.cpp.o
+.PHONY : utils.cpp.o
+
+utils.i: utils.cpp.i
+.PHONY : utils.i
+
+# target to preprocess a source file
+utils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/utils.cpp.i
+.PHONY : utils.cpp.i
+
+utils.s: utils.cpp.s
+.PHONY : utils.s
+
+# target to generate assembly for a file
+utils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/utils.cpp.s
+.PHONY : utils.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -162,9 +234,18 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... main"
+	@echo "... decode.o"
+	@echo "... decode.i"
+	@echo "... decode.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... resource.o"
+	@echo "... resource.i"
+	@echo "... resource.s"
+	@echo "... utils.o"
+	@echo "... utils.i"
+	@echo "... utils.s"
 .PHONY : help
 
 
