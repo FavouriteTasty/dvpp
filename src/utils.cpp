@@ -140,3 +140,50 @@ bool ReadFileToDeviceMem(const std::string &fileName, void *&dataDev, uint32_t &
     fclose(fp);
     return true;
 }
+
+bool WriteDeviceMemoryToFile(const std::string& fileName, void *dataDev, uint32_t dataSize, bool isDevice) {
+    if (dataDev == nullptr) {
+        error("dataDev is nullptr!");
+        return false;
+    }
+
+    // copy output to host memory
+    void *data = nullptr;
+    aclError aclRet;
+    if (!isDevice) {
+        aclRet = aclrtMallocHost(&data, dataSize);
+        if (data == nullptr) {
+            assert(aclRet, "malloc host data buffer failed. dataSize = " + std::to_string(dataSize));
+            return false;
+        }
+        aclRet = aclrtMemcpy(data, dataSize, dataDev, dataSize, ACL_MEMCPY_DEVICE_TO_HOST);
+        if (aclRet != ACL_SUCCESS) {
+            assert(aclRet, "acl memcpy data to host failed, dataSize = " + std::to_string(dataSize));
+            (void)aclrtFreeHost(data);
+            return false;
+        }
+    } else {
+        data = dataDev;
+    }
+
+    FILE *outFileFp = fopen(fileName.c_str(), "wb+");
+    if (outFileFp == nullptr) {
+        error("fopen out file failed: " + fileName);
+        (void)aclrtFreeHost(data);
+        return false;
+    }
+
+    bool ret = true;
+    size_t writeRet = fwrite(data, 1, dataSize, outFileFp);
+    if (writeRet != dataSize) {
+        error("need write " + std::to_string(dataSize) + " bytes to " + fileName + " , but only write " + std::to_string(writeRet) + " bytes\n");
+        ret = false;
+    }
+
+    if (!isDevice) {
+        (void)aclrtFreeHost(data);
+    }
+    fflush(outFileFp);
+    fclose(outFileFp);
+    return ret;
+}

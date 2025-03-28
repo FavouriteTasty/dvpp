@@ -34,16 +34,14 @@ void callback(acldvppStreamDesc *input, acldvppPicDesc *output, void *userdata)
         }
 
         if (vdecOutBufferDev != nullptr) {
-            // uint32_t size = acldvppGetPicDescSize(output);
-            // std::string fileNameSave = "outdir/image" + std::to_string(frameIndex);
-            // if (!Utils::WriteDeviceMemoryToFile(fileNameSave.c_str(), vdecOutBufferDev, size)) {
-            //     ERROR_LOG("write file failed.");
-            // }
+            uint32_t size = acldvppGetPicDescSize(output);
+            std::string fileNameSave = "image/image" + std::to_string(frameIndex) + ".png";
+            if (!WriteDeviceMemoryToFile(fileNameSave, vdecOutBufferDev, size, g_runMode == ACL_DEVICE)) {
+                error("write file failed.");
+            }
 
-            // aclError ret = acldvppFree(vdecOutBufferDev);
-            // if (ret != ACL_SUCCESS) {
-            //     ERROR_LOG("fail to free output pic desc data, errorCode = %d", static_cast<int32_t>(ret));
-            // }
+            aclError ret = acldvppFree(vdecOutBufferDev);
+            assert(ret, "fail to free output pic desc data");
         }
         aclError ret = acldvppDestroyPicDesc(output);
         assert(ret, "fail to destroy output pic desc");
@@ -55,8 +53,9 @@ void callback(acldvppStreamDesc *input, acldvppPicDesc *output, void *userdata)
 Decoder::Decoder(): vdecChannelDescription(nullptr), streamInputDescription(nullptr),
 picOutputDescription(nullptr), picOutBufferDev(nullptr),
 inBufferDev(nullptr), inBufferSize(0), inputWidth(0),
-inputHeight(0), enType(H264_MAIN_LEVEL), format(PIXEL_FORMAT_YUV_SEMIPLANAR_420)
+inputHeight(0), enType(H264_BASELINE_LEVEL), format(PIXEL_FORMAT_YUV_SEMIPLANAR_420)
 {
+    aclrtGetRunMode(&g_runMode);
 }
 
 void Decoder::Init(uint64_t threadId)
@@ -147,7 +146,6 @@ void Decoder::Process() {
         *frameIndex = index++;
     }
 
-    std::cout << vdecChannelDescription << " " << streamInputDescription << " " << picOutputDescription << " " << frameIndex << std::endl;
     // send vdec frame
     aclError ret = aclvdecSendFrame(vdecChannelDescription, streamInputDescription,
                                     picOutputDescription, nullptr, static_cast<void *>(frameIndex));

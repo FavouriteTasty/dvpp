@@ -23,5 +23,24 @@ aux_source_directory(. SRC_LIST)
 
 add_executable(main ${SRC_LIST})
 
+# ffmpeg
+set(FFMPEG_DIR "/home/dml/ffmpeg/ffmpeg-ascend/ascend") 
+set(FFMPEG_INCLUDE_DIR "${FFMPEG_DIR}/include")
+set(FFMPEG_LIB_DIR "${FFMPEG_DIR}/lib")
+find_library(AVFORMAT_LIB avformat HINTS ${FFMPEG_LIB_DIR})
+find_library(AVCODEC_LIB avcodec HINTS ${FFMPEG_LIB_DIR})
+find_library(AVUTIL_LIB avutil HINTS ${FFMPEG_LIB_DIR})
+find_library(SWRESAMPLE_LIB swresample HINTS ${FFMPEG_LIB_DIR})
+
 find_package(Threads REQUIRED)
-target_link_libraries(main ascendcl stdc++ acl_dvpp Threads::Threads)
+
+target_link_libraries(main PRIVATE
+    ascendcl 
+    stdc++ 
+    acl_dvpp 
+    Threads::Threads
+    ${AVFORMAT_LIB}
+    ${AVCODEC_LIB}
+    ${AVUTIL_LIB}
+    ${SWRESAMPLE_LIB}
+    )

@@ -28,5 +28,6 @@ void error(const std::string& msg, aclError ret);
 
 bool CheckAndCreateFolder(const std::string& folderName);
 bool ReadFileToDeviceMem(const std::string& fileName, void *&dataDev, uint32_t &dataSize, bool isDevice);
+bool WriteDeviceMemoryToFile(const std::string& fileName, void *dataDev, uint32_t dataSize, bool isDevice);
 
 #endif

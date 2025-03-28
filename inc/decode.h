@@ -5,6 +5,8 @@
 #include "resource.h"
 #include <string>
 
+static aclrtRunMode g_runMode;
+
 void callback(acldvppStreamDesc *input, acldvppPicDesc *output, void *userdata);
 
 class Decoder {

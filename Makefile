@@ -153,6 +153,30 @@ decode.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/decode.cpp.s
 .PHONY : decode.cpp.s
 
+ffmpeg.o: ffmpeg.cpp.o
+.PHONY : ffmpeg.o
+
+# target to build an object file
+ffmpeg.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/ffmpeg.cpp.o
+.PHONY : ffmpeg.cpp.o
+
+ffmpeg.i: ffmpeg.cpp.i
+.PHONY : ffmpeg.i
+
+# target to preprocess a source file
+ffmpeg.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/ffmpeg.cpp.i
+.PHONY : ffmpeg.cpp.i
+
+ffmpeg.s: ffmpeg.cpp.s
+.PHONY : ffmpeg.s
+
+# target to generate assembly for a file
+ffmpeg.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/ffmpeg.cpp.s
+.PHONY : ffmpeg.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -237,6 +261,9 @@ help:
 	@echo "... decode.o"
 	@echo "... decode.i"
 	@echo "... decode.s"
+	@echo "... ffmpeg.o"
+	@echo "... ffmpeg.i"
+	@echo "... ffmpeg.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

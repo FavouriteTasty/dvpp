@@ -2,11 +2,12 @@
 #include <sstream>
 #include "resource.h"
 #include "decode.h"
+#include "ffmpeg.h"
 
 
 namespace {
 	std::string outFolder = "./output";
-	std::string filePath = "data/h264.mp4";
+	std::string filePath = "/home/dml/dvpp/data/output_0001.h264";
     bool runFlag = true;
 }
 
@@ -34,10 +35,14 @@ int main() {
 
 	Decoder decoder;
 	Resource r(0);
+
+	// size_t frameSize = 0;
+	// getFrame(filePath.c_str(), 0, &frameSize);
+	// std::cout << frameSize << std::endl;
 	
 	try {
 		r.init();
-		std::cout << is_h265("data/h264.mp4") << std::endl;
+		std::cout << is_h265(filePath) << std::endl;
 
 		thread = std::thread(ThreadFunc, r.getContext());
 		std::ostringstream oss;
@@ -50,8 +55,8 @@ int main() {
 		// dvpp init
 		decoder.Init(tid);
 
-		const int inputWidth = 1920;
-		const int inputHeight = 1080;
+		const int inputWidth = 1280;
+		const int inputHeight = 720;
 		int rest_len = 10;
 
 		uint64_t count = 0;
@@ -64,13 +69,15 @@ int main() {
 				error("read file " + filePath +" to device mem failed.\n");
 				decoder.DestroyResource();
 			}
+			std::cout << "buffer的大小：" << std::to_string(inBufferSize) << std::endl;
+
 			decoder.SetInput(inBufferDev, inBufferSize, inputWidth, inputHeight);
 
 			decoder.Process();
 
 			++count;
 			rest_len = rest_len - 1;
-			log("success to execute aclvdecSendFrame, count = " + std::to_string(count));
+			log("success decode, count = " + std::to_string(count));
 		}
 		decoder.DestroyResource();
 	}
